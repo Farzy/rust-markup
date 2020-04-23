@@ -39,7 +39,7 @@ fn machine_cycle(state: State, c: char) -> (Option<String>, State) {
 
 fn main() {
     let mut state = State::Normal;
-    let input = "The quick brown fox # blah # jumps ^over^ the _LaZy_ dog. ^ça et là^. ^Heiß^. _RÊŸ._";
+    let input = "The quick brown fox # blah # jumps ^over^ the _LaZy_ dog. ^çà et là^. ^Heiß^. _RÊŸ._";
     let mut result = String::new();
 
     for c in input.chars() {
