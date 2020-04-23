@@ -5,14 +5,14 @@ enum State {
     Lower,
 }
 
-fn machine_cycle(state: &State, c: char) -> (Option<char>, State) {
+fn machine_cycle(state: &State, c: char) -> (Option<String>, State) {
     match *state {
         State::Normal => {
             match c {
                 '#' => (None, State::Comment),
                 '^' => (None, State::Upper),
                 '_' => (None, State::Lower),
-                d => (Some(d), State::Normal),
+                _ => (Some(c.to_string()), State::Normal),
             }
         },
         State::Comment => {
@@ -24,13 +24,13 @@ fn machine_cycle(state: &State, c: char) -> (Option<char>, State) {
         State::Upper => {
             match c {
                 '^' => (None, State::Normal),
-                _ => (Some(c.to_ascii_uppercase()), State::Upper),
+                _ => (Some(c.to_uppercase().to_string()), State::Upper),
             }
         },
         State::Lower => {
             match c {
                 '_' => (None, State::Normal),
-                _ => (Some(c.to_ascii_lowercase()), State::Lower),
+                _ => (Some(c.to_lowercase().to_string()), State::Lower),
             }
         },
     }
@@ -38,14 +38,15 @@ fn machine_cycle(state: &State, c: char) -> (Option<char>, State) {
 
 fn main() {
     let mut state = State::Normal;
-    let input = "The quick brown fox # blah # jumps ^over^ the _LaZy_ dog.";
+    let input = "The quick brown fox # blah # jumps ^over^ the _LaZy_ dog. ^ça et là^. ^Heiß^. _RÊŸ._";
 
     for c in input.chars() {
-        let s = machine_cycle(&state, c);
-        match s.0 {
-            Some(c) => print!("{}", c),
+        let output = machine_cycle(&state, c);
+        match output.0 {
+            Some(chr) => print!("{}", chr),
             None => (),
         }
-        state = s.1;
+        state = output.1;
     }
+    println!();
 }
