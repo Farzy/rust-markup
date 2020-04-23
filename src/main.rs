@@ -1,3 +1,4 @@
+#[derive(Copy, Clone)]
 enum State {
     Normal,
     Comment,
@@ -5,8 +6,8 @@ enum State {
     Lower,
 }
 
-fn machine_cycle(state: &State, c: char) -> (Option<String>, State) {
-    match *state {
+fn machine_cycle(state: State, c: char) -> (Option<String>, State) {
+    match state {
         State::Normal => {
             match c {
                 '#' => (None, State::Comment),
@@ -41,7 +42,7 @@ fn main() {
     let input = "The quick brown fox # blah # jumps ^over^ the _LaZy_ dog. ^ça et là^. ^Heiß^. _RÊŸ._";
 
     for c in input.chars() {
-        let output = machine_cycle(&state, c);
+        let output = machine_cycle(state, c);
         match output.0 {
             Some(chr) => print!("{}", chr),
             None => (),
