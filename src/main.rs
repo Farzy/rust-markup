@@ -42,12 +42,11 @@ fn main() {
     let input = "The quick brown fox # blah # jumps ^over^ the _LaZy_ dog. ^ça et là^. ^Heiß^. _RÊŸ._";
 
     for c in input.chars() {
-        let output = machine_cycle(state, c);
-        match output.0 {
-            Some(chr) => print!("{}", chr),
-            None => (),
+        let (output, new_state) = machine_cycle(state, c);
+        if let Some(chr) = output {
+            print!("{}", chr);
         }
-        state = output.1;
+        state = new_state;
     }
     println!();
 }
