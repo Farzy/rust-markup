@@ -40,13 +40,14 @@ fn machine_cycle(state: State, c: char) -> (Option<String>, State) {
 fn main() {
     let mut state = State::Normal;
     let input = "The quick brown fox # blah # jumps ^over^ the _LaZy_ dog. ^ça et là^. ^Heiß^. _RÊŸ._";
+    let mut result = String::new();
 
     for c in input.chars() {
         let (output, new_state) = machine_cycle(state, c);
         if let Some(chr) = output {
-            print!("{}", chr);
+            result.push_str(&chr);
         }
         state = new_state;
     }
-    println!();
+    println!("{}", result);
 }
